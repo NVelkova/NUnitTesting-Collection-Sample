@@ -94,33 +94,178 @@ namespace Collection.UnitTests
         public void Test_Collection_SetByIndex()
         {
             var nums = new Collection<int>(2, 3, 5);
-            Assert.That(nums[1], Is.EqualTo(3));
+            nums[0] = 1;
+            var expected = "[1, 3, 5]";
+
+            Assert.That(expected, Is.EqualTo(nums.ToString()));
         }
         [Test]
         public void Test_Collection_SetByIndexString()
         {
             var students = new Collection<string>("Petar", "Tedi");
-            Assert.That(students[1], Is.EqualTo("Tedi"));
+            students[1] = "Moni";
+            var expected = "[Petar, Moni]";
+
+            Assert.That(expected, Is.EqualTo(students.ToString()));
             
         }
         [Test]
         public void Test_Collection_SetByInvalidIndexString()
         {
             var names = new Collection<string>("Maria", "Ivan");
-            Assert.That(() => { var name = names[-1]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { var name = names[3]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { names[-1] = "Moni"; }, Throws.InstanceOf<ArgumentOutOfRangeException>(), "Invalid index!");
+            Assert.That(() => { names[3] = "Tedi"; }, Throws.InstanceOf<ArgumentOutOfRangeException>(), "Invalid index!");
             Assert.That(names.ToString, Is.EqualTo("[Maria, Ivan]"));
 
         }
+        [Test]
+        public void Test_Collection_AddRangeWithGrow()
+        {
+            var nums = new Collection<int>(3, 19);
+
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(16));
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(nums.Count));
+
+        }
+
+        [Test]
+        public void Test_Collection_InsertAtStart()
+        {
+            var coll = new Collection<int>();
+            var expected = "[3, 6]";
+
+            coll.InsertAt(0, 3);
+            coll.InsertAt(1, 6);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+            
+        }
+        [Test]
+        public void Test_Collection_InsertAtEnd()
+        {
+            var coll = new Collection<int>();
+            var expected = "[3, 6, 9]";
+
+            coll.InsertAt(0, 3);
+            coll.InsertAt(1, 6);
+            coll.InsertAt(2, 9);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
+        [Test]
+        public void Test_Collection_InsertAtMiddle()
+        {
+            var coll = new Collection<int>();
+            var expected = "[3, 5, 6, 9]";
+
+            coll.InsertAt(0, 3);
+            coll.InsertAt(1, 6);
+            coll.InsertAt(2, 9);
+            coll.InsertAt(1, 5);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+
+        }
+
+        [Test]
+        public void Test_Collection_InsertAtWithGrow()
+        {
+            var coll = new Collection<int>();
+            coll.AddRange(Enumerable.Range(3, 5).ToArray());
+            var expected = "[3, 4, 333, 5, 6, 7]";
+
+            coll.InsertAt(2, 333);
+            
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+
+        }
+        [Test]
+        public void Test_Collection_InsertAtInvalidIndex()
+        {
+            var coll = new Collection<int>(3, 333);
+            var expected = "[3, 333]";
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(() => { coll[-1] = 1; }, Throws.InstanceOf<ArgumentOutOfRangeException>(), "Invalid index!");
+                Assert.That(expected, Is.EqualTo(coll.ToString()));
+            });
+        }
+
+        [Test]
+        public void Test_Collection_ExchangeMiddle() 
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[3, 7, 5]";
+
+            coll.Exchange(2, 1);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
+        
+        [Test]
+        public void Test_Collection_ExchangeFirstLast()
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[7, 5, 3]";
+
+            coll.Exchange(0, 2);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
+        [Test]
+        public void Test_Collection_ExchangeInvalidIndexes()
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[3, 5, 7]";
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(() => { coll[-1] = 1; }, Throws.InstanceOf<ArgumentOutOfRangeException>(), "Invalid index!");
+                Assert.That(expected, Is.EqualTo(coll.ToString()));
+            });
+        }
+        
+        [Test]
+        public void Test_Collection_RemoveAtStart()
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[5, 7]";
+
+            coll.RemoveAt(0);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
+        [Test]
+        public void Test_Collection_RemoveAtEnd()
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[3, 5]";
+
+            coll.RemoveAt(2);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
+        [Test]
+        public void Test_Collection_RemoveAtMiddle()
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[3, 7]";
+
+            coll.RemoveAt(1);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
+        [Test]
+        public void Test_Collection_RemoveAtMiddle()
+        {
+            var coll = new Collection<int>(3, 5, 7);
+            var expected = "[3, 7]";
+
+            coll.RemoveAt(1);
+
+            Assert.That(expected, Is.EqualTo(coll.ToString()));
+        }
     }
-
-
-
-
-
-
-
-
-
 
 }
