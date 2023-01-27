@@ -68,6 +68,50 @@ namespace Collection.UnitTests
             var nums = new Collection<int>(-1);
             Assert.That(nums[0], Is.InRange(-2, 5));
         }
+        [Test]
+        public void Test_Collection_GetByIndex()
+        {
+            var nums = new Collection<int>(2, 3, 5);
+            Assert.That(nums[1], Is.EqualTo(3));
+        }
+        [Test]
+        public void Test_Collection_GetByIndexString()
+        {
+            var names = new Collection<string>("Ana", "Dimitar");
+            Assert.That(names[0], Is.EqualTo("Ana"));
+            Assert.That(names[1], Is.EqualTo("Dimitar"));
+      
+        }
+        [Test]
+        public void Test_Collection_GetByInvalidIndex()
+        {
+            var names = new Collection<string>("Maria", "Ivan");
+            Assert.That(()=> { var name = names[-1]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { var name = names[3]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(names.ToString, Is.EqualTo("[Maria, Ivan]"));
+        }
+        [Test]
+        public void Test_Collection_SetByIndex()
+        {
+            var nums = new Collection<int>(2, 3, 5);
+            Assert.That(nums[1], Is.EqualTo(3));
+        }
+        [Test]
+        public void Test_Collection_SetByIndexString()
+        {
+            var students = new Collection<string>("Petar", "Tedi");
+            Assert.That(students[1], Is.EqualTo("Tedi"));
+            
+        }
+        [Test]
+        public void Test_Collection_SetByInvalidIndexString()
+        {
+            var names = new Collection<string>("Maria", "Ivan");
+            Assert.That(() => { var name = names[-1]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { var name = names[3]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(names.ToString, Is.EqualTo("[Maria, Ivan]"));
+
+        }
     }
 
 
