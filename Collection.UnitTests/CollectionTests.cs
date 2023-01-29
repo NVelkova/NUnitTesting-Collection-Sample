@@ -349,6 +349,44 @@ namespace Collection.UnitTests
             Assert.That(nums.Capacity >= nums.Count);
         }
 
+        //Data-Driven Testing
+        [TestCase("Ana", 0, "Ana")]
+        [TestCase("Ana,Dimitar,Moni", 0, "Ana")]
+        [TestCase("Ana,Dimitar,Moni", 1, "Dimitar")]
+        [TestCase("Ana,Dimitar,Moni", 2, "Moni")]
+
+        public void Test_Collection_GetByValidIndex(
+            string data, int index, string expected)
+        {
+            var items = new Collection<string>(data.Split(","));
+            var item = items[index];
+            Assert.That(item, Is.EqualTo(expected));
+        }
+
+        [TestCase("33", 0, 33)]
+        [TestCase("3,66,99" , 0, 3)]
+        [TestCase("3,66,99", 1, 66)]
+        [TestCase("3,66,99", 2, 99)]
+
+        public void Test_Collection_GetByValidIndex(
+            string data, int index, int expected)
+        {
+            var items = new Collection<string>(data.Split(","));
+            var item = items[index];
+            Assert.That(item, Is.EqualTo(expected.ToString()));
+        }
+        [TestCase("3, 5", 2)]
+        [TestCase("1, 9", -1)]
+        
+        public void Test_Collection_GetByInvalidIndex(
+            string data, int index)
+        {
+            var items = new Collection<string>(data.Split(",", StringSplitOptions.RemoveEmptyEntries));
+
+            Assert.That(() => items[index] , Throws.InstanceOf<ArgumentOutOfRangeException>());
+            
+        }
+
     }
 
 
