@@ -355,7 +355,7 @@ namespace Collection.UnitTests
         [TestCase("Ana,Dimitar,Moni", 1, "Dimitar")]
         [TestCase("Ana,Dimitar,Moni", 2, "Moni")]
 
-        public void Test_Collection_GetByValidIndex(
+        public void Test_Collection_GetByValidIndexStringDDT(
             string data, int index, string expected)
         {
             var items = new Collection<string>(data.Split(","));
@@ -364,11 +364,11 @@ namespace Collection.UnitTests
         }
 
         [TestCase("33", 0, 33)]
-        [TestCase("3,66,99" , 0, 3)]
+        [TestCase("3,66,99", 0, 3)]
         [TestCase("3,66,99", 1, 66)]
         [TestCase("3,66,99", 2, 99)]
 
-        public void Test_Collection_GetByValidIndex(
+        public void Test_Collection_GetByValidIndexDDT(
             string data, int index, int expected)
         {
             var items = new Collection<string>(data.Split(","));
@@ -377,17 +377,38 @@ namespace Collection.UnitTests
         }
         [TestCase("3, 5", 2)]
         [TestCase("1, 9", -1)]
-        
-        public void Test_Collection_GetByInvalidIndex(
+
+        public void Test_Collection_GetByInvalidIndexDDT(
             string data, int index)
         {
             var items = new Collection<string>(data.Split(",", StringSplitOptions.RemoveEmptyEntries));
 
-            Assert.That(() => items[index] , Throws.InstanceOf<ArgumentOutOfRangeException>());
-            
+            Assert.That(() => items[index], Throws.InstanceOf<ArgumentOutOfRangeException>());
+
+        }
+        [TestCase("3", 0, "3")]
+        [TestCase("2,6", 0, "2")]
+        [TestCase("2,6", 1, "6")]
+        [TestCase("2,6,7,9", 3, "9")]
+
+        public void Test_Collection_AddDDT(
+            string data, int index, int expected)
+        {
+            var items = new Collection<string>(data.Split(","));
+            var item = items[index];
+            Assert.That(item, Is.EqualTo(expected.ToString()));
+        }
+        
+        [TestCase("3", 0, "3")]
+        public void Test_Collection_InsertAtMiddleDDT(
+            string data, int index, string expected)
+        {
+            var items = new Collection<string>(data.Split(","));
+            var item = items[index];
+
+            Assert.That(item, Is.EqualTo(expected.ToString()));
         }
 
     }
 
-
-}   
+}  
